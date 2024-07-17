@@ -3,7 +3,7 @@ const config = {
     type: Phaser.AUTO,
     width: 256,
     height: 244,
-    backgroundColor: '#fff',
+    backgroundColor: '#049cd8',
     parent: 'game',
     scene: {
         preload, // Se ejecuta para precargar
@@ -13,6 +13,24 @@ const config = {
 }
 new Phaser.Game(config);
 
-function preload() { } // Paso 1
-function create() { } // Paso 2
+function preload() {
+    this.load.image(
+        'cloud1',
+        'assets/scenery/overworld/cloud1.png'
+    )
+    this.load.image(
+        'floorbricks',
+        'assets/scenery/overworld/floorbricks.png'
+    )
+    this.load.spritesheet(
+        'mario',
+        'assets/entities/mario.png',
+        { frameWidth: 18, frameHeight: 16 }
+    )
+} // Paso 1
+function create() {
+    this.add.image(0, 0, 'cloud1').setScale(.15).setOrigin(0, 0);
+    this.add.sprite(50, 210, 'mario').setOrigin(0, 1);
+    this.add.tileSprite(0, config.height - 16, config.width, 32, 'floorbricks');
+} // Paso 2
 function update() { } // Paso 3...Infinito
