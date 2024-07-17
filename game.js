@@ -44,6 +44,14 @@ function create() {
         frameRate: 12,
         repeat: -1
     })
+    this.anims.create({
+        key: 'mario-idle',
+        frames: [{ key: 'mario', frame: 0 }]
+    })
+    this.anims.create({
+        key: 'mario-jump',
+        frames: [{ key: 'mario', frame: 5 }]
+    })
 } // Paso 2
 function update() {
     if (this.keys.left.isDown) {
@@ -53,7 +61,13 @@ function update() {
         this.mario.anims.play('mario-walk', true)
         this.mario.x += 2
     } else {
-        this.mario.anims.stop()
-        this.mario.setFrame(0)
+        this.mario.anims.play('mario-idle', true)
     }
+    if (this.keys.up.isDown) {
+        this.mario.y -= 5
+        this.mario.anims.play('mario-jump', true)
+
+    }
+
+    
 } // Paso 3...Infinito
