@@ -30,7 +30,15 @@ function preload() {
 } // Paso 1
 function create() {
     this.add.image(0, 0, 'cloud1').setScale(.15).setOrigin(0, 0);
-    this.add.sprite(50, 210, 'mario').setOrigin(0, 1);
-    this.add.tileSprite(0, config.height - 16, config.width, 32, 'floorbricks');
+    this.mario = this.add.sprite(50, 210, 'mario').setOrigin(0, 1);
+    this.add.tileSprite(0, config.height - 32, config.width, 32, 'floorbricks').setOrigin(0, 0);;
+    this.keys = this.input.keyboard.createCursorKeys()
 } // Paso 2
-function update() { } // Paso 3...Infinito
+function update() {
+    if (this.keys.left.isDown) {
+        this.mario.x -= 2
+    }
+    if (this.keys.right.isDown) {
+        this.mario.x += 2
+    }
+} // Paso 3...Infinito
