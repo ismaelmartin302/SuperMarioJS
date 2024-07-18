@@ -37,13 +37,13 @@ function preload() {
 } // Paso 1
 function create() {
     this.add.image(0, 0, 'cloud1').setScale(.15).setOrigin(0, 0);
-    this.mario = this.physics.add.sprite(50, 110, 'mario').setOrigin(0, 1)
+    this.mario = this.physics.add.sprite(50, 110, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
     this.floor = this.physics.add.staticGroup()
 
     this.floor
-        .create(0, config.height - 16, 'floorbricks').setOrigin(0, .5)
+        .create(0, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.floor
-        .create(150, config.height - 16, 'floorbricks').setOrigin(0, .5)
+        .create(150, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.physics.add.collider(this.mario, this.floor)
     this.keys = this.input.keyboard.createCursorKeys()
 
@@ -75,8 +75,8 @@ function update() {
     } else {
         this.mario.anims.play('mario-idle', true)
     }
-    if (this.keys.up.isDown) {
-        this.mario.y -= 5
+    if (this.keys.up.isDown && this.mario.body.touching.down) {
+        this.mario.setVelocityY(-300)
         this.mario.anims.play('mario-jump', true)
 
     }
