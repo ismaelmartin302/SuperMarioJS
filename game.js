@@ -38,7 +38,7 @@ function preload() {
 
 } // Paso 1
 function create() {
-    this.add.image(0, 0, 'cloud1').setScale(.15).setOrigin(0, 0);
+    this.add.image(100, 50, 'cloud1').setScale(.15).setOrigin(0, 0);
     this.mario = this.physics.add.sprite(50, 110, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
     this.floor = this.physics.add.staticGroup()
 
@@ -74,6 +74,11 @@ function update() {
         this.mario.isDead = true
         this.mario.anims.play('mario-dead')
         this.mario.setVelocityY(-300)
+        this.mario.setCollideWorldBounds(false)
+
+        setTimeout(() => {
+            this.scene.restart()
+        }, 2000)
     }
 
 
