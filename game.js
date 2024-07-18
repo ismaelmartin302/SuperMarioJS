@@ -1,3 +1,5 @@
+import { createAnimations } from "./animations.js";
+
 /* global Phaser */
 const config = {
     type: Phaser.AUTO,
@@ -40,6 +42,7 @@ function create() {
     this.mario = this.physics.add.sprite(50, 110, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
     this.floor = this.physics.add.staticGroup()
 
+    createAnimations(this)
     this.floor
         .create(0, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.floor
@@ -47,23 +50,7 @@ function create() {
     this.physics.add.collider(this.mario, this.floor)
     this.keys = this.input.keyboard.createCursorKeys()
 
-    this.anims.create({
-        key: 'mario-walk',
-        frames: this.anims.generateFrameNumbers(
-            'mario',
-            { start: 1, end: 3 },
-        ),
-        frameRate: 12,
-        repeat: -1
-    })
-    this.anims.create({
-        key: 'mario-idle',
-        frames: [{ key: 'mario', frame: 0 }]
-    })
-    this.anims.create({
-        key: 'mario-jump',
-        frames: [{ key: 'mario', frame: 5 }]
-    })
+
     this.cameras.main.setBounds(0, 0, 2000, config.height)
     this.cameras.main.startFollow(this.mario)
     this.physics.world.setBounds(0, 0, 2000, config.height)
