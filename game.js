@@ -68,6 +68,8 @@ function update() {
     if ((this.keys.up.isDown || this.keys.space.isDown || this.keys.W.isDown) && this.mario.body.touching.down) {
         this.mario.setVelocityY(-300)
         this.mario.anims.play('mario-jump', true)
+    } else if (!this.mario.body.touching.down) {
+        this.mario.anims.play('mario-jump', true)
     }
     if (this.mario.y >= config.height) {
         this.mario.isDead = true
