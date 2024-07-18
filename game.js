@@ -64,6 +64,9 @@ function create() {
         key: 'mario-jump',
         frames: [{ key: 'mario', frame: 5 }]
     })
+    this.cameras.main.setBounds(0, 0, 2000, config.height)
+    this.cameras.main.startFollow(this.mario)
+    this.physics.world.setBounds(0, 0, 2000, config.height)
 } // Paso 2
 function update() {
     if (this.keys.left.isDown) {
