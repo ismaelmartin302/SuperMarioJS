@@ -1,5 +1,4 @@
 import { createAnimations } from "./animations.js";
-
 /* global Phaser */
 const config = {
     type: Phaser.AUTO,
@@ -49,8 +48,7 @@ function create() {
     this.floor
         .create(150, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.physics.add.collider(this.mario, this.floor)
-    this.keys = this.input.keyboard.createCursorKeys()
-
+    this.keys = this.input.keyboard.addKeys("W,A,S,D,up,left,right,down,space");
 
     this.cameras.main.setBounds(0, 0, 2000, config.height)
     this.cameras.main.startFollow(this.mario)
@@ -58,16 +56,16 @@ function create() {
 } // Paso 2
 function update() {
     if (this.mario.isDead) return
-    if (this.keys.left.isDown) {
+    if (this.keys.left.isDown || this.keys.A.isDown) {
         this.mario.anims.play('mario-walk', true)
         this.mario.x -= 2
-    } else if (this.keys.right.isDown) {
+    } else if (this.keys.right.isDown || this.keys.D.isDown) {
         this.mario.anims.play('mario-walk', true)
         this.mario.x += 2
     } else if (this.mario.isDead != true) {
         this.mario.anims.play('mario-idle', true)
     }
-    if (this.keys.up.isDown && this.mario.body.touching.down) {
+    if ((this.keys.up.isDown || this.keys.space.isDown || this.keys.W.isDown) && this.mario.body.touching.down) {
         this.mario.setVelocityY(-300)
         this.mario.anims.play('mario-jump', true)
     }
