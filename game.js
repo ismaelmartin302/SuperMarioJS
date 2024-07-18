@@ -56,19 +56,24 @@ function create() {
     this.physics.world.setBounds(0, 0, 2000, config.height)
 } // Paso 2
 function update() {
+    if (this.mario.isDead) return
     if (this.keys.left.isDown) {
         this.mario.anims.play('mario-walk', true)
         this.mario.x -= 2
     } else if (this.keys.right.isDown) {
         this.mario.anims.play('mario-walk', true)
         this.mario.x += 2
-    } else {
+    } else if (this.mario.isDead != true) {
         this.mario.anims.play('mario-idle', true)
     }
     if (this.keys.up.isDown && this.mario.body.touching.down) {
         this.mario.setVelocityY(-300)
         this.mario.anims.play('mario-jump', true)
-
+    }
+    if (this.mario.y >= config.height) {
+        this.mario.isDead = true
+        this.mario.anims.play('mario-dead')
+        this.mario.setVelocityY(-300)
     }
 
 
