@@ -35,6 +35,7 @@ function preload() {
         'assets/entities/mario.png',
         { frameWidth: 18, frameHeight: 16 }
     )
+    this.load.audio('gameover', 'assets/sound/music/gameover.mp3')
 
 } // Paso 1
 function create() {
@@ -74,6 +75,7 @@ function update() {
         this.mario.isDead = true
         this.mario.anims.play('mario-dead')
         this.mario.setVelocityY(-300)
+        this.sound.add('gameover', { volume: 0.2 }).play()
         this.mario.setCollideWorldBounds(false)
 
         setTimeout(() => {
