@@ -3,13 +3,13 @@ import { createAnimations } from "./animations.js";
 const config = {
     type: Phaser.AUTO,
     width: 256,
-    height: 244,
+    height: 444,
     backgroundColor: '#049cd8',
     parent: 'game',
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 }
+            gravity: { y: 600 }
         }
     },
     scene: {
@@ -43,7 +43,7 @@ function create() {
     this.sound.add('theme', { volume: 0.2 }).play()
     this.sound
     this.add.image(100, 50, 'cloud1').setScale(.15).setOrigin(0, 0);
-    this.mario = this.physics.add.sprite(50, 110, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
+    this.mario = this.physics.add.sprite(config.width/2, config.height-32, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
     this.floor = this.physics.add.staticGroup()
 
     createAnimations(this)
@@ -51,12 +51,16 @@ function create() {
         .create(0, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.floor
         .create(128, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
+    this.floor
+        .create(128, config.height - 148, 'floorbricks').setOrigin(0, .5).refreshBody()
+    this.floor
+        .create(0, config.height - 256, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.physics.add.collider(this.mario, this.floor)
     this.keys = this.input.keyboard.addKeys("W,A,S,D,up,left,right,down,space");
 
-    this.cameras.main.setBounds(0, -1756, 256, 2000)
+    this.cameras.main.setBounds(0, 0, config.width, config.height + 2000)
     this.cameras.main.startFollow(this.mario)
-    this.physics.world.setBounds(0, 0, 256, 2000)
+    this.physics.world.setBounds(0, 0, config.width, config.height + 2000)
 } // Paso 2
 function update() {
     if (this.mario.isDead) return
@@ -70,7 +74,7 @@ function update() {
         this.mario.anims.play('mario-idle', true)
     }
     if ((this.keys.up.isDown || this.keys.space.isDown || this.keys.W.isDown) && this.mario.body.touching.down) {
-        this.mario.setVelocityY(-300)
+        this.mario.setVelocityY(-600)
         this.mario.anims.play('mario-jump', true)
         this.sound.add('jump', { volume: 0.05 }).play()
     } else if (!this.mario.body.touching.down) {
