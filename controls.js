@@ -1,3 +1,5 @@
+import { playAudio } from "./audio"
+
 export function checkControls({ mario, keys, sound }) {
     if (keys.left.isDown || keys.A.isDown) {
         mario.anims.play('mario-walk', true)
@@ -11,7 +13,7 @@ export function checkControls({ mario, keys, sound }) {
     if ((keys.up.isDown || keys.space.isDown || keys.W.isDown) && mario.body.touching.down) {
         mario.setVelocityY(-600)
         mario.anims.play('mario-jump', true)
-        sound.add('jump', { volume: 0.05 }).play()
+        playAudio('jump',this, { volume: 0.05 })
     } else if (!mario.body.touching.down) {
         mario.anims.play('mario-jump', true)
     }

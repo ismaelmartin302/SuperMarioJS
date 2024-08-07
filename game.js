@@ -1,4 +1,5 @@
 import { createAnimations } from "./animations.js";
+import { initAudio, playAudio } from "./audio.js";
 import { checkControls } from "./controls.js";
 /* global Phaser */
 const config = {
@@ -41,14 +42,11 @@ function preload() {
         'assets/entities/overworld/goomba.png',
         { frameWidth: 16, frameHeight: 16 }
     )
-    this.load.audio('gameover', 'assets/sound/music/gameover.mp3')
-    this.load.audio('goomba-stomp', 'assets/sound/effects/goomba-stomp.wav')
-    this.load.audio('jump', 'assets/sound/effects/jump.mp3')
-    this.load.audio('theme', 'assets/sound/music/overworld/theme.mp3')
+    initAudio(this)
 
 } // Paso 1
 function create() {
-    this.sound.add('theme', { volume: 0.2 }).play()
+    playAudio('theme', this, { volume: 0.2 })
     this.sound
     this.add.image(100, 50, 'cloud1').setScale(.15).setOrigin(0, 0);
     this.mario = this.physics.add.sprite(config.width / 2, config.height - 32, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
@@ -72,7 +70,7 @@ function create() {
     function onHitEnemy(mario, enemy) {
         if (mario.body.touching.down && enemy.body.touching.up) {
             enemy.anims.play('goomba-dead', true)
-            this.sound.play('goomba-stomp')
+            playAudio('goomba-stomp', this)
             enemy.setVelocityX(0)
             setTimeout(()=> {
                 enemy.destroy()
@@ -95,7 +93,7 @@ function update() {
         mario.isDead = true
         mario.anims.play('mario-dead')
         mario.setVelocityY(-300)
-        sound.add('gameover', { volume: 0.2 }).play()
+        playAudio('gameover', this,{ volume: 0.2 })
         mario.setCollideWorldBounds(false)
 
         setTimeout(() => {
