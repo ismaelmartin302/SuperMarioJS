@@ -35,9 +35,13 @@ function preload() {
         { frameWidth: 18, frameHeight: 16 }
     )
     this.load.audio('gameover', 'assets/sound/music/gameover.mp3')
+    this.load.audio('jump', 'assets/sound/effects/jump.mp3')
+    this.load.audio('theme', 'assets/sound/music/overworld/theme.mp3')
 
 } // Paso 1
 function create() {
+    this.sound.add('theme', { volume: 0.2 }).play()
+    this.sound
     this.add.image(100, 50, 'cloud1').setScale(.15).setOrigin(0, 0);
     this.mario = this.physics.add.sprite(50, 110, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
     this.floor = this.physics.add.staticGroup()
@@ -68,6 +72,7 @@ function update() {
     if ((this.keys.up.isDown || this.keys.space.isDown || this.keys.W.isDown) && this.mario.body.touching.down) {
         this.mario.setVelocityY(-300)
         this.mario.anims.play('mario-jump', true)
+        this.sound.add('jump', { volume: 0.05 }).play()
     } else if (!this.mario.body.touching.down) {
         this.mario.anims.play('mario-jump', true)
     }
