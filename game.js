@@ -1,4 +1,5 @@
 import { createAnimations } from "./animations.js";
+import { checkControls } from "./controls.js";
 /* global Phaser */
 const config = {
     type: Phaser.AUTO,
@@ -43,7 +44,7 @@ function create() {
     this.sound.add('theme', { volume: 0.2 }).play()
     this.sound
     this.add.image(100, 50, 'cloud1').setScale(.15).setOrigin(0, 0);
-    this.mario = this.physics.add.sprite(config.width/2, config.height-32, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
+    this.mario = this.physics.add.sprite(config.width / 2, config.height - 32, 'mario').setOrigin(0, 1).setCollideWorldBounds(true).setGravityY(300)
     this.floor = this.physics.add.staticGroup()
 
     createAnimations(this)
@@ -63,32 +64,18 @@ function create() {
     this.physics.world.setBounds(0, 0, config.width, config.height + 2000)
 } // Paso 2
 function update() {
-    if (this.mario.isDead) return
-    if (this.keys.left.isDown || this.keys.A.isDown) {
-        this.mario.anims.play('mario-walk', true)
-        this.mario.x -= 2
-    } else if (this.keys.right.isDown || this.keys.D.isDown) {
-        this.mario.anims.play('mario-walk', true)
-        this.mario.x += 2
-    } else if (this.mario.isDead != true) {
-        this.mario.anims.play('mario-idle', true)
-    }
-    if ((this.keys.up.isDown || this.keys.space.isDown || this.keys.W.isDown) && this.mario.body.touching.down) {
-        this.mario.setVelocityY(-600)
-        this.mario.anims.play('mario-jump', true)
-        this.sound.add('jump', { volume: 0.05 }).play()
-    } else if (!this.mario.body.touching.down) {
-        this.mario.anims.play('mario-jump', true)
-    }
-    if (this.mario.y >= config.height) {
-        this.mario.isDead = true
-        this.mario.anims.play('mario-dead')
-        this.mario.setVelocityY(-300)
-        this.sound.add('gameover', { volume: 0.2 }).play()
-        this.mario.setCollideWorldBounds(false)
+    const { mario, sound, scene } = this
+    if (mario.isDead) return
+    checkControls(this)
+    if (mario.y >= config.height) {
+        mario.isDead = true
+        mario.anims.play('mario-dead')
+        mario.setVelocityY(-300)
+        sound.add('gameover', { volume: 0.2 }).play()
+        mario.setCollideWorldBounds(false)
 
         setTimeout(() => {
-            this.scene.restart()
+            scene.restart()
         }, 2000)
     }
 
