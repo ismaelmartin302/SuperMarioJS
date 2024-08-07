@@ -50,13 +50,13 @@ function create() {
     this.floor
         .create(0, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.floor
-        .create(150, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
+        .create(128, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.physics.add.collider(this.mario, this.floor)
     this.keys = this.input.keyboard.addKeys("W,A,S,D,up,left,right,down,space");
 
-    this.cameras.main.setBounds(0, 0, 2000, config.height)
+    this.cameras.main.setBounds(0, -1756, 256, 2000)
     this.cameras.main.startFollow(this.mario)
-    this.physics.world.setBounds(0, 0, 2000, config.height)
+    this.physics.world.setBounds(0, 0, 256, 2000)
 } // Paso 2
 function update() {
     if (this.mario.isDead) return
