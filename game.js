@@ -42,6 +42,7 @@ function preload() {
         { frameWidth: 16, frameHeight: 16 }
     )
     this.load.audio('gameover', 'assets/sound/music/gameover.mp3')
+    this.load.audio('goomba-stomp', 'assets/sound/effects/goomba-stomp.wav')
     this.load.audio('jump', 'assets/sound/effects/jump.mp3')
     this.load.audio('theme', 'assets/sound/music/overworld/theme.mp3')
 
@@ -65,16 +66,23 @@ function create() {
         .create(0, config.height - 256, 'floorbricks').setOrigin(0, .5).refreshBody()
     this.physics.add.collider(this.enemy, this.floor)
     this.physics.add.collider(this.mario, this.floor)
-    this.physics.add.collider(this.mario, this.enemy, onHitEnemy)
+    this.physics.add.collider(this.mario, this.enemy, onHitEnemy, null, this)
     this.keys = this.input.keyboard.addKeys("W,A,S,D,up,left,right,down,space");
 
     function onHitEnemy(mario, enemy) {
         if (mario.body.touching.down && enemy.body.touching.up) {
-            mario.body.velocity.y = -200
-            enemy.destroy()
+            enemy.anims.play('goomba-dead', true)
+            this.sound.play('goomba-stomp')
+            enemy.setVelocityX(0)
+            setTimeout(()=> {
+                enemy.destroy()
+            }, 500)
             mario.setVelocityY(-300)
+        } else {
+            // mario muere
         }
     }
+    this.enemy.anims.play('goomba-walk', true)
     this.cameras.main.setBounds(0, 0, config.width, config.height + 2000)
     this.cameras.main.startFollow(this.mario)
     this.physics.world.setBounds(0, 0, config.width, config.height + 2000)
